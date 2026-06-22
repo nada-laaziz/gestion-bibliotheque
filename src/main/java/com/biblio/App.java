@@ -1,31 +1,24 @@
 package com.biblio;
 
-import java.sql.Connection;
-import com.biblio.dao.Database;
-
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class App extends Application {
 
     @Override
-    public void start(Stage stage) {
-        String message;
-        try (Connection conn = Database.getConnection()) {
-            message = "Connexion à la base de données réussie !";
-        } catch (Exception e) {
-            message = "Erreur de connexion : " + e.getMessage();
-        }
-
-        Label label = new Label(message);
-        StackPane root = new StackPane(label);
-        Scene scene = new Scene(root, 600, 400);
-
-        stage.setTitle("Gestion de Bibliothèque");
+    public void start(Stage stage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("/com/biblio/view/main-view.fxml")
+        );
+        Scene scene = new Scene(loader.load());
+        scene.getStylesheets().add(
+            getClass().getResource("/com/biblio/style.css").toExternalForm()
+        );
+        stage.setTitle("Gestion de Bibliotheque - ENSAO GI3");
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
 

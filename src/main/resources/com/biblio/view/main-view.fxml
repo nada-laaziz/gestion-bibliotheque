@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.biblio.controller.MainController"
+            prefWidth="1100" prefHeight="700">
+
+    <top>
+        <MenuBar>
+            <Menu text="Fichier">
+                <MenuItem text="Exporter CSV Livres" fx:id="menuExportLivres"/>
+                <MenuItem text="Exporter CSV Emprunts" fx:id="menuExportEmprunts"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Quitter" fx:id="menuQuitter"/>
+            </Menu>
+            <Menu text="Aide">
+                <MenuItem text="À propos" fx:id="menuAPropos"/>
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <center>
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+            <Tab text="📚 Livres" fx:id="tabLivres">
+                <fx:include source="livre-view.fxml"/>
+            </Tab>
+            <Tab text="📋 Emprunts" fx:id="tabEmprunts">
+                <fx:include source="emprunt-view.fxml"/>
+            </Tab>
+            <Tab text="📊 Statistiques" fx:id="tabStats">
+                <fx:include fx:id="statsPane" source="stats-view.fxml"/>
+            </Tab>
+        </TabPane>
+    </center>
+
+    <bottom>
+        <Label fx:id="statusBar" text="Prêt"
+               style="-fx-padding: 5; -fx-background-color: #f0f0f0; -fx-min-width: 1100;"/>
+    </bottom>
+
+</BorderPane>

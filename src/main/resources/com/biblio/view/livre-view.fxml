@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.biblio.controller.LivreController"
+      spacing="10" style="-fx-padding: 15;">
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Rechercher par titre ou auteur..." prefWidth="300"/>
+        <ComboBox fx:id="filterCategorie" promptText="Filtrer par categorie" prefWidth="180"/>
+        <Button fx:id="btnRechercher" text="Rechercher" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 15;"/>
+        <Button fx:id="btnReset" text="Reinitialiser" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 8 15;"/>
+    </HBox>
+    <Accordion>
+        <TitledPane text="Formulaire Livre" expanded="true">
+            <GridPane hgap="10" vgap="10">
+                <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                <Label text="Titre *" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="titreField" promptText="Titre du livre" prefWidth="250" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <Label text="Auteur" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <TextField fx:id="auteurField" promptText="Nom de l'auteur" prefWidth="250" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                <Label text="ISBN" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="isbnField" promptText="ISBN" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label text="Categorie" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <ComboBox fx:id="categorieField" prefWidth="250" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                <Label text="Nb Exemplaires" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <Spinner fx:id="nbExemplairesSpinner" min="1" max="100" initialValue="1" prefWidth="100" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <Label text="Disponible" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                <CheckBox fx:id="disponibleCheck" selected="true" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                <Label text="Description" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <TextArea fx:id="descriptionArea" promptText="Description..." prefWidth="600" prefHeight="80" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.columnSpan="3"/>
+                <HBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="4">
+                    <Button fx:id="btnAjouter" text="Ajouter" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-padding: 8 20;"/>
+                    <Button fx:id="btnModifier" text="Modifier" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-padding: 8 20;"/>
+                    <Button fx:id="btnSupprimer" text="Supprimer" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 8 20;"/>
+                    <Button fx:id="btnVider" text="Vider" style="-fx-background-color: #bdc3c7; -fx-text-fill: white; -fx-padding: 8 20;"/>
+                    <Button fx:id="btnExporter" text="Exporter CSV" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-padding: 8 20;"/>
+                </HBox>
+            </GridPane>
+        </TitledPane>
+    </Accordion>
+    <TableView fx:id="livreTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+            <TableColumn fx:id="colTitre" text="Titre" prefWidth="200"/>
+            <TableColumn fx:id="colAuteur" text="Auteur" prefWidth="150"/>
+            <TableColumn fx:id="colIsbn" text="ISBN" prefWidth="120"/>
+            <TableColumn fx:id="colCategorie" text="Categorie" prefWidth="120"/>
+            <TableColumn fx:id="colNbEx" text="Exemplaires" prefWidth="100"/>
+            <TableColumn fx:id="colDispo" text="Disponible" prefWidth="100"/>
+        </columns>
+        <placeholder><Label text="Aucun livre trouve"/></placeholder>
+    </TableView>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Chargement :"/>
+        <ProgressBar fx:id="progressBar" progress="0" prefWidth="200"/>
+        <Label fx:id="totalLabel" text="Total : 0 livre(s)"/>
+    </HBox>
+</VBox>
