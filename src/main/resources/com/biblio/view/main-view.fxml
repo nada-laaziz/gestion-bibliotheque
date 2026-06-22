@@ -1,44 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+[System.IO.File]::WriteAllText("$PWD\src\main\resources\com\biblio\view\main-view.fxml", '<?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.biblio.controller.MainController"
             prefWidth="1100" prefHeight="700">
-
     <top>
         <MenuBar>
             <Menu text="Fichier">
-                <MenuItem text="Exporter CSV Livres" fx:id="menuExportLivres"/>
-                <MenuItem text="Exporter CSV Emprunts" fx:id="menuExportEmprunts"/>
-                <SeparatorMenuItem/>
-                <MenuItem text="Quitter" fx:id="menuQuitter"/>
+                <MenuItem fx:id="menuExportLivres" text="Exporter CSV Livres"/>
+                <MenuItem fx:id="menuExportEmprunts" text="Exporter CSV Emprunts"/>
+                <MenuItem fx:id="menuQuitter" text="Quitter"/>
             </Menu>
             <Menu text="Aide">
-                <MenuItem text="À propos" fx:id="menuAPropos"/>
+                <MenuItem fx:id="menuAPropos" text="A propos"/>
             </Menu>
         </MenuBar>
     </top>
-
     <center>
-        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
-            <Tab text="📚 Livres" fx:id="tabLivres">
-                <fx:include source="livre-view.fxml"/>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+            <Tab text="Livres">
+                <content>
+                    <fx:include source="livre-view.fxml"/>
+                </content>
             </Tab>
-            <Tab text="📋 Emprunts" fx:id="tabEmprunts">
-                <fx:include source="emprunt-view.fxml"/>
+            <Tab text="Emprunts">
+                <content>
+                    <fx:include source="emprunt-view.fxml"/>
+                </content>
             </Tab>
-            <Tab text="📊 Statistiques" fx:id="tabStats">
-                <fx:include fx:id="statsPane" source="stats-view.fxml"/>
+            <Tab text="Statistiques">
+                <content>
+                    <fx:include source="stats-view.fxml"/>
+                </content>
             </Tab>
         </TabPane>
     </center>
-
-    <bottom>
-        <Label fx:id="statusBar" text="Prêt"
-               style="-fx-padding: 5; -fx-background-color: #f0f0f0; -fx-min-width: 1100;"/>
-    </bottom>
-
-</BorderPane>
+</BorderPane>', [System.Text.Encoding]::UTF8)
