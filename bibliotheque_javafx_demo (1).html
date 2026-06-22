@@ -1,0 +1,595 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); background: transparent; }
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 620px;
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  background: var(--color-background-tertiary);
+}
+
+/* TOP BAR */
+.topbar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 16px; height: 48px;
+  background: var(--color-background-primary);
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  flex-shrink: 0;
+}
+.logo-area { display: flex; align-items: center; gap: 8px; }
+.logo-icon {
+  width: 28px; height: 28px; border-radius: 6px;
+  background: #185FA5; display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 14px;
+}
+.app-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+.search-bar {
+  flex: 1; max-width: 280px;
+  display: flex; align-items: center; gap: 6px;
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: 20px; padding: 0 10px; height: 28px;
+}
+.search-bar input {
+  border: none; background: transparent; font-size: 12px;
+  color: var(--color-text-primary); outline: none; width: 100%;
+}
+.user-badge {
+  margin-left: auto; display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--color-text-secondary);
+}
+.avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #185FA5; color: #fff;
+  font-size: 11px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* BODY */
+.app-body { display: flex; flex: 1; overflow: hidden; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 160px; flex-shrink: 0;
+  background: var(--color-background-primary);
+  border-right: 0.5px solid var(--color-border-tertiary);
+  padding: 8px 0; overflow-y: auto;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 14px; cursor: pointer;
+  font-size: 12px; color: var(--color-text-secondary);
+  border-radius: 0; transition: background 0.15s;
+  user-select: none;
+}
+.nav-item:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+.nav-item.active {
+  background: #E6F1FB; color: #185FA5; font-weight: 500;
+  border-left: 2.5px solid #185FA5;
+}
+.nav-item i { font-size: 15px; }
+.nav-section {
+  font-size: 10px; font-weight: 500; color: var(--color-text-tertiary);
+  padding: 10px 14px 4px; text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* MAIN */
+.main { flex: 1; overflow-y: auto; padding: 16px; }
+
+/* SCREENS */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* TABS */
+.tab-bar {
+  display: flex; gap: 0;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  margin-bottom: 14px;
+}
+.tab {
+  padding: 7px 14px; font-size: 12px; cursor: pointer;
+  color: var(--color-text-secondary); border-bottom: 2px solid transparent;
+  user-select: none;
+}
+.tab.active { color: #185FA5; border-bottom-color: #185FA5; font-weight: 500; }
+
+/* CARDS KPI */
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;
+  margin-bottom: 14px;
+}
+.kpi-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 12px 14px;
+}
+.kpi-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.kpi-value { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+.kpi-badge { font-size: 10px; margin-top: 2px; }
+
+/* PROGRESS */
+.progress-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.progress-label { font-size: 11px; color: var(--color-text-secondary); width: 120px; }
+.progress-track {
+  flex: 1; height: 6px; border-radius: 3px;
+  background: var(--color-background-secondary);
+}
+.progress-fill { height: 100%; border-radius: 3px; }
+.progress-pct { font-size: 11px; color: var(--color-text-secondary); width: 32px; text-align: right; }
+
+/* TABLE */
+.data-table {
+  width: 100%; border-collapse: collapse; font-size: 11px;
+}
+.data-table th {
+  text-align: left; padding: 6px 8px; font-size: 10px; font-weight: 500;
+  color: var(--color-text-tertiary); border-bottom: 0.5px solid var(--color-border-tertiary);
+  background: var(--color-background-secondary);
+}
+.data-table td { padding: 7px 8px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); }
+.data-table tr:hover td { background: var(--color-background-secondary); }
+.badge {
+  display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 500;
+}
+.badge-ok { background: #EAF3DE; color: #3B6D11; }
+.badge-warn { background: #FAEEDA; color: #854F0B; }
+.badge-err { background: #FCEBEB; color: #A32D2D; }
+.badge-blue { background: #E6F1FB; color: #185FA5; }
+
+/* FORM */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form-group { display: flex; flex-direction: column; gap: 3px; }
+.form-group label { font-size: 11px; color: var(--color-text-secondary); }
+.form-group input, .form-group select, .form-group textarea {
+  padding: 5px 8px; border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md); font-size: 12px;
+  background: var(--color-background-primary); color: var(--color-text-primary);
+  outline: none;
+}
+.form-group textarea { height: 56px; resize: none; }
+.btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 12px; border-radius: var(--border-radius-md); font-size: 12px;
+  border: 0.5px solid var(--color-border-tertiary); cursor: pointer;
+  background: var(--color-background-primary); color: var(--color-text-primary);
+  transition: background 0.15s;
+}
+.btn:hover { background: var(--color-background-secondary); }
+.btn-primary { background: #185FA5; color: #fff; border-color: #185FA5; }
+.btn-primary:hover { background: #0C447C; }
+.btn-danger { background: #FCEBEB; color: #A32D2D; border-color: #F7C1C1; }
+.btn-success { background: #EAF3DE; color: #3B6D11; border-color: #C0DD97; }
+.btn-row { display: flex; gap: 6px; margin-top: 10px; }
+
+/* CHART BARS */
+.chart-area { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px; }
+.chart-title { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 8px; }
+.bars { display: flex; align-items: flex-end; gap: 6px; height: 80px; }
+.bar-col { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; }
+.bar { width: 100%; border-radius: 3px 3px 0 0; background: #378ADD; transition: height 0.3s; }
+.bar-lbl { font-size: 9px; color: var(--color-text-tertiary); }
+
+/* PIE CHART */
+.pie-legend { display: flex; flex-direction: column; gap: 5px; }
+.pie-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--color-text-secondary); }
+.pie-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* STAT CARDS */
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ALERTS area */
+.alert-box {
+  padding: 8px 12px; border-radius: var(--border-radius-md); font-size: 11px;
+  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+}
+.alert-warn { background: #FAEEDA; color: #854F0B; border: 0.5px solid #FAC775; }
+.alert-info { background: #E6F1FB; color: #185FA5; border: 0.5px solid #B5D4F4; }
+
+/* LOGIN SCREEN */
+.login-screen {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; padding: 24px;
+}
+.login-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 28px 24px; width: 280px;
+}
+.login-logo {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: #185FA5; display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 20px; margin: 0 auto 12px;
+}
+.login-title { font-size: 15px; font-weight: 500; text-align: center; color: var(--color-text-primary); margin-bottom: 4px; }
+.login-sub { font-size: 11px; color: var(--color-text-secondary); text-align: center; margin-bottom: 16px; }
+</style>
+
+<h2 class="sr-only">Démo interactive de l'application bibliothèque JavaFX</h2>
+
+<div class="app-shell" id="appShell">
+
+  <!-- LOGIN -->
+  <div id="loginView" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; background:var(--color-background-tertiary);">
+    <div class="login-card">
+      <div class="login-logo"><i class="ti ti-books" aria-hidden="true"></i></div>
+      <p class="login-title">BiblioApp</p>
+      <p class="login-sub">Système de gestion de bibliothèque</p>
+      <div class="form-group" style="margin-bottom:8px">
+        <label>Email</label>
+        <input type="email" value="admin@biblio.ma" />
+      </div>
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Mot de passe</label>
+        <input type="password" value="••••••••" />
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="login()">
+        <i class="ti ti-login" aria-hidden="true"></i> Se connecter
+      </button>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="appView" style="display:none; flex-direction:column; height:100%;">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="logo-area">
+        <div class="logo-icon"><i class="ti ti-books" aria-hidden="true"></i></div>
+        <span class="app-name">BiblioApp</span>
+      </div>
+      <div class="search-bar">
+        <i class="ti ti-search" style="font-size:13px;color:var(--color-text-tertiary)" aria-hidden="true"></i>
+        <input placeholder="Rechercher un livre, auteur..." oninput="searchLive(this.value)" />
+      </div>
+      <div class="user-badge">
+        <span style="font-size:11px">Administrateur</span>
+        <div class="avatar">AD</div>
+      </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="app-body">
+
+      <!-- SIDEBAR -->
+      <nav class="sidebar">
+        <div class="nav-section">Principal</div>
+        <div class="nav-item active" onclick="showScreen('dashboard', this)">
+          <i class="ti ti-layout-dashboard" aria-hidden="true"></i> Tableau de bord
+        </div>
+        <div class="nav-section">Gestion</div>
+        <div class="nav-item" onclick="showScreen('livres', this)">
+          <i class="ti ti-book" aria-hidden="true"></i> Livres
+        </div>
+        <div class="nav-item" onclick="showScreen('emprunts', this)">
+          <i class="ti ti-clock" aria-hidden="true"></i> Emprunts
+        </div>
+        <div class="nav-section">Analyse</div>
+        <div class="nav-item" onclick="showScreen('stats', this)">
+          <i class="ti ti-chart-bar" aria-hidden="true"></i> Statistiques
+        </div>
+        <div class="nav-section">Outils</div>
+        <div class="nav-item" onclick="showScreen('export', this)">
+          <i class="ti ti-download" aria-hidden="true"></i> Exportation
+        </div>
+        <div class="nav-item" onclick="showScreen('settings', this)">
+          <i class="ti ti-settings" aria-hidden="true"></i> Paramètres
+        </div>
+      </nav>
+
+      <!-- MAIN CONTENT -->
+      <main class="main">
+
+        <!-- DASHBOARD -->
+        <div class="screen active" id="screen-dashboard">
+          <div class="alert-box alert-warn" id="alertRetard">
+            <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+            <span>2 emprunt(s) en retard — veuillez contacter les emprunteurs.</span>
+            <button class="btn" style="margin-left:auto;padding:2px 8px;font-size:10px" onclick="this.parentElement.style.display='none'">Ignorer</button>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-label"><i class="ti ti-books" style="font-size:13px" aria-hidden="true"></i> Total livres</div>
+              <div class="kpi-value">128</div>
+              <div class="kpi-badge"><span class="badge badge-blue">Collection</span></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label"><i class="ti ti-check" style="font-size:13px" aria-hidden="true"></i> Disponibles</div>
+              <div class="kpi-value" style="color:#3B6D11">94</div>
+              <div class="kpi-badge"><span class="badge badge-ok">73%</span></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label"><i class="ti ti-clock" style="font-size:13px" aria-hidden="true"></i> Empruntés</div>
+              <div class="kpi-value" style="color:#185FA5">34</div>
+              <div class="kpi-badge"><span class="badge badge-blue">En cours</span></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label"><i class="ti ti-alert-circle" style="font-size:13px" aria-hidden="true"></i> En retard</div>
+              <div class="kpi-value" style="color:#A32D2D">2</div>
+              <div class="kpi-badge"><span class="badge badge-err">Urgent</span></div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+            <div class="chart-area">
+              <div class="chart-title">Taux d'occupation</div>
+              <div class="progress-row">
+                <span class="progress-label">Occupation livres</span>
+                <div class="progress-track"><div class="progress-fill" style="width:27%;background:#378ADD"></div></div>
+                <span class="progress-pct">27%</span>
+              </div>
+              <div class="progress-row">
+                <span class="progress-label">Taux de retard</span>
+                <div class="progress-track"><div class="progress-fill" style="width:6%;background:#E24B4A"></div></div>
+                <span class="progress-pct">6%</span>
+              </div>
+              <div class="progress-row">
+                <span class="progress-label">Fidélité lecteurs</span>
+                <div class="progress-track"><div class="progress-fill" style="width:68%;background:#639922"></div></div>
+                <span class="progress-pct">68%</span>
+              </div>
+            </div>
+            <div class="chart-area">
+              <div class="chart-title">Emprunts par mois</div>
+              <div class="bars" id="barChart">
+                <div class="bar-col"><div class="bar" style="height:40px"></div><span class="bar-lbl">Jan</span></div>
+                <div class="bar-col"><div class="bar" style="height:55px"></div><span class="bar-lbl">Fév</span></div>
+                <div class="bar-col"><div class="bar" style="height:35px"></div><span class="bar-lbl">Mar</span></div>
+                <div class="bar-col"><div class="bar" style="height:65px"></div><span class="bar-lbl">Avr</span></div>
+                <div class="bar-col"><div class="bar" style="height:50px"></div><span class="bar-lbl">Mai</span></div>
+                <div class="bar-col"><div class="bar" style="height:70px;background:#185FA5"></div><span class="bar-lbl">Jun</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-area">
+            <div class="chart-title" style="margin-bottom:8px">Derniers emprunts</div>
+            <table class="data-table">
+              <thead><tr><th>Livre</th><th>Emprunteur</th><th>Date emprunt</th><th>Retour prévu</th><th>Statut</th></tr></thead>
+              <tbody>
+                <tr><td>Clean Code</td><td>Yassine Amrani</td><td>01/06/2026</td><td>15/06/2026</td><td><span class="badge badge-warn">En retard</span></td></tr>
+                <tr><td>Le Petit Prince</td><td>Fatima Ouali</td><td>05/06/2026</td><td>19/06/2026</td><td><span class="badge badge-blue">En cours</span></td></tr>
+                <tr><td>L'Étranger</td><td>Mehdi Benhali</td><td>28/05/2026</td><td>11/06/2026</td><td><span class="badge badge-err">En retard</span></td></tr>
+                <tr><td>Design Patterns</td><td>Sara Idrissi</td><td>10/06/2026</td><td>24/06/2026</td><td><span class="badge badge-blue">En cours</span></td></tr>
+                <tr><td>The C Language</td><td>Omar Benali</td><td>02/05/2026</td><td>16/05/2026</td><td><span class="badge badge-ok">Retourné</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- LIVRES -->
+        <div class="screen" id="screen-livres">
+          <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
+            <input placeholder="Recherche titre, auteur, ISBN..." style="flex:1;padding:5px 10px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);font-size:12px;background:var(--color-background-primary);color:var(--color-text-primary)" />
+            <select style="font-size:12px;padding:5px 8px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)">
+              <option>Toutes catégories</option><option>Informatique</option><option>Littérature</option><option>Philosophie</option>
+            </select>
+            <select style="font-size:12px;padding:5px 8px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary)">
+              <option>Tous statuts</option><option>Disponible</option><option>Emprunté</option>
+            </select>
+            <button class="btn btn-primary" onclick="showAddLivreForm()"><i class="ti ti-plus" aria-hidden="true"></i> Ajouter</button>
+          </div>
+
+          <div id="livresList">
+            <table class="data-table">
+              <thead><tr><th>#</th><th>ISBN</th><th>Titre</th><th>Auteur</th><th>Catégorie</th><th>Note</th><th>Statut</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>978-0-13-468599-1</td><td>Clean Code</td><td>R. C. Martin</td><td>Informatique</td><td>⭐ 4.5</td><td><span class="badge badge-err">Emprunté</span></td><td><button class="btn" style="padding:2px 6px;font-size:10px" onclick="editLivre()"><i class="ti ti-edit" aria-hidden="true"></i></button></td></tr>
+                <tr><td>2</td><td>978-2-07-036024-4</td><td>Le Petit Prince</td><td>Saint-Exupéry</td><td>Littérature</td><td>⭐ 4.8</td><td><span class="badge badge-ok">Disponible</span></td><td><button class="btn" style="padding:2px 6px;font-size:10px" onclick="editLivre()"><i class="ti ti-edit" aria-hidden="true"></i></button></td></tr>
+                <tr><td>3</td><td>978-0-06-112008-4</td><td>To Kill a Mockingbird</td><td>Harper Lee</td><td>Roman</td><td>⭐ 4.7</td><td><span class="badge badge-ok">Disponible</span></td><td><button class="btn" style="padding:2px 6px;font-size:10px" onclick="editLivre()"><i class="ti ti-edit" aria-hidden="true"></i></button></td></tr>
+                <tr><td>4</td><td>978-0-13-110362-7</td><td>The C Programming Language</td><td>Kernighan</td><td>Informatique</td><td>⭐ 4.6</td><td><span class="badge badge-err">Emprunté</span></td><td><button class="btn" style="padding:2px 6px;font-size:10px" onclick="editLivre()"><i class="ti ti-edit" aria-hidden="true"></i></button></td></tr>
+                <tr><td>5</td><td>978-2-07-040850-4</td><td>L'Étranger</td><td>A. Camus</td><td>Philosophie</td><td>⭐ 4.3</td><td><span class="badge badge-ok">Disponible</span></td><td><button class="btn" style="padding:2px 6px;font-size:10px" onclick="editLivre()"><i class="ti ti-edit" aria-hidden="true"></i></button></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="addLivreForm" style="display:none;margin-top:12px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px">
+            <p style="font-size:13px;font-weight:500;margin-bottom:10px;color:var(--color-text-primary)">Ajouter un livre</p>
+            <div class="form-grid">
+              <div class="form-group"><label>ISBN</label><input placeholder="978-..." /></div>
+              <div class="form-group"><label>Titre</label><input placeholder="Titre du livre" /></div>
+              <div class="form-group"><label>Auteur</label><input placeholder="Nom de l'auteur" /></div>
+              <div class="form-group"><label>Catégorie</label><select><option>Informatique</option><option>Littérature</option><option>Philosophie</option><option>Sciences</option></select></div>
+              <div class="form-group"><label>Langue</label><select><option>Français</option><option>Anglais</option><option>Arabe</option></select></div>
+              <div class="form-group"><label>Nombre de pages</label><input type="number" value="200" /></div>
+              <div class="form-group" style="grid-column:1/-1"><label>Description</label><textarea placeholder="Description du livre..."></textarea></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-primary" onclick="saveLivre()"><i class="ti ti-check" aria-hidden="true"></i> Enregistrer</button>
+              <button class="btn" onclick="document.getElementById('addLivreForm').style.display='none'"><i class="ti ti-x" aria-hidden="true"></i> Annuler</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- EMPRUNTS -->
+        <div class="screen" id="screen-emprunts">
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <button class="btn btn-primary" onclick="showAddEmpruntForm()"><i class="ti ti-plus" aria-hidden="true"></i> Nouvel emprunt</button>
+            <button class="btn btn-success"><i class="ti ti-arrow-back" aria-hidden="true"></i> Retour livre</button>
+            <button class="btn"><i class="ti ti-download" aria-hidden="true"></i> Export CSV</button>
+          </div>
+
+          <div id="empruntsList">
+            <table class="data-table">
+              <thead><tr><th>#</th><th>Livre</th><th>Emprunteur</th><th>Email</th><th>Emprunt</th><th>Retour prévu</th><th>Statut</th><th>Pénalité</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>Clean Code</td><td>Yassine Amrani</td><td>y.amrani@univ.ma</td><td>01/06/2026</td><td>15/06/2026</td><td><span class="badge badge-warn">En retard</span></td><td>0 MAD</td></tr>
+                <tr><td>2</td><td>Le Petit Prince</td><td>Fatima Ouali</td><td>f.ouali@univ.ma</td><td>05/06/2026</td><td>19/06/2026</td><td><span class="badge badge-blue">En cours</span></td><td>—</td></tr>
+                <tr><td>3</td><td>L'Étranger</td><td>Mehdi Benhali</td><td>m.benhali@gmail.com</td><td>28/05/2026</td><td>11/06/2026</td><td><span class="badge badge-err">En retard</span></td><td>3 MAD</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="addEmpruntForm" style="display:none;margin-top:12px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px">
+            <p style="font-size:13px;font-weight:500;margin-bottom:10px;color:var(--color-text-primary)">Enregistrer un emprunt</p>
+            <div class="form-grid">
+              <div class="form-group"><label>Livre (disponibles)</label><select><option>Le Petit Prince — Saint-Exupéry</option><option>L'Étranger — A. Camus</option><option>To Kill a Mockingbird — H. Lee</option></select></div>
+              <div class="form-group"><label>Nom emprunteur</label><input placeholder="Prénom Nom" /></div>
+              <div class="form-group"><label>Email</label><input type="email" placeholder="email@exemple.ma" /></div>
+              <div class="form-group"><label>Téléphone</label><input placeholder="06XXXXXXXX" /></div>
+              <div class="form-group"><label>Date emprunt</label><input type="date" value="2026-06-14" /></div>
+              <div class="form-group"><label>Retour prévu</label><input type="date" value="2026-06-28" /></div>
+            </div>
+            <div class="alert-box alert-info" style="margin-top:8px">
+              <i class="ti ti-info-circle" aria-hidden="true"></i>
+              Un reçu PDF sera généré automatiquement à l'enregistrement.
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-primary" onclick="saveEmprunt()"><i class="ti ti-check" aria-hidden="true"></i> Enregistrer + Générer reçu</button>
+              <button class="btn" onclick="document.getElementById('addEmpruntForm').style.display='none'"><i class="ti ti-x" aria-hidden="true"></i> Annuler</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="screen" id="screen-stats">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="chart-area">
+              <div class="chart-title">Livres par catégorie</div>
+              <div style="display:flex;gap:12px;align-items:center">
+                <svg width="80" height="80" viewBox="0 0 80 80" role="img" aria-label="Graphique camembert catégories">
+                  <title>Répartition par catégorie</title>
+                  <circle r="32" cx="40" cy="40" fill="none" stroke="#378ADD" stroke-width="14" stroke-dasharray="80 120" stroke-dashoffset="0"/>
+                  <circle r="32" cx="40" cy="40" fill="none" stroke="#639922" stroke-width="14" stroke-dasharray="50 150" stroke-dashoffset="-80"/>
+                  <circle r="32" cx="40" cy="40" fill="none" stroke="#EF9F27" stroke-width="14" stroke-dasharray="30 170" stroke-dashoffset="-130"/>
+                  <circle r="32" cx="40" cy="40" fill="none" stroke="#D4537E" stroke-width="14" stroke-dasharray="40 160" stroke-dashoffset="-160"/>
+                </svg>
+                <div class="pie-legend">
+                  <div class="pie-item"><div class="pie-dot" style="background:#378ADD"></div>Informatique — 40</div>
+                  <div class="pie-item"><div class="pie-dot" style="background:#639922"></div>Littérature — 25</div>
+                  <div class="pie-item"><div class="pie-dot" style="background:#EF9F27"></div>Philosophie — 15</div>
+                  <div class="pie-item"><div class="pie-dot" style="background:#D4537E"></div>Autres — 48</div>
+                </div>
+              </div>
+            </div>
+            <div class="chart-area">
+              <div class="chart-title">Top 5 livres empruntés</div>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px">
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px"><span>Clean Code</span><span style="color:var(--color-text-secondary)">14×</span></div><div class="progress-track"><div class="progress-fill" style="width:100%;background:#378ADD"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px"><span>Le Petit Prince</span><span style="color:var(--color-text-secondary)">11×</span></div><div class="progress-track"><div class="progress-fill" style="width:78%;background:#378ADD"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px"><span>L'Étranger</span><span style="color:var(--color-text-secondary)">9×</span></div><div class="progress-track"><div class="progress-fill" style="width:64%;background:#378ADD"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px"><span>Design Patterns</span><span style="color:var(--color-text-secondary)">7×</span></div><div class="progress-track"><div class="progress-fill" style="width:50%;background:#378ADD"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px"><span>The C Language</span><span style="color:var(--color-text-secondary)">5×</span></div><div class="progress-track"><div class="progress-fill" style="width:36%;background:#378ADD"></div></div></div>
+              </div>
+            </div>
+            <div class="chart-area" style="grid-column:1/-1">
+              <div class="chart-title">Classement des lecteurs</div>
+              <table class="data-table">
+                <thead><tr><th>Rang</th><th>Lecteur</th><th>Email</th><th>Total emprunts</th><th>En cours</th></tr></thead>
+                <tbody>
+                  <tr><td>🥇 1</td><td>Yassine Amrani</td><td>y.amrani@univ.ma</td><td>14</td><td>1</td></tr>
+                  <tr><td>🥈 2</td><td>Fatima Ouali</td><td>f.ouali@univ.ma</td><td>11</td><td>1</td></tr>
+                  <tr><td>🥉 3</td><td>Sara Idrissi</td><td>s.idrissi@gmail.com</td><td>9</td><td>0</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXPORT -->
+        <div class="screen" id="screen-export">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="chart-area">
+              <div class="chart-title" style="font-size:13px;font-weight:500;color:var(--color-text-primary)"><i class="ti ti-file-spreadsheet" style="font-size:15px;vertical-align:-2px" aria-hidden="true"></i> Export CSV</div>
+              <p style="font-size:11px;color:var(--color-text-secondary);margin:8px 0 12px">Exporter les données au format CSV (compatible Excel).</p>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <button class="btn"><i class="ti ti-download" aria-hidden="true"></i> Exporter tous les livres</button>
+                <button class="btn"><i class="ti ti-download" aria-hidden="true"></i> Exporter tous les emprunts</button>
+                <button class="btn"><i class="ti ti-download" aria-hidden="true"></i> Exporter résultats filtrés</button>
+              </div>
+            </div>
+            <div class="chart-area">
+              <div class="chart-title" style="font-size:13px;font-weight:500;color:var(--color-text-primary)"><i class="ti ti-upload" style="font-size:15px;vertical-align:-2px" aria-hidden="true"></i> Import CSV</div>
+              <p style="font-size:11px;color:var(--color-text-secondary);margin:8px 0 12px">Importer une liste de livres depuis un fichier CSV.</p>
+              <button class="btn btn-primary"><i class="ti ti-upload" aria-hidden="true"></i> Choisir un fichier CSV…</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="screen" id="screen-settings">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="chart-area">
+              <div class="chart-title" style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px">Thème</div>
+              <div style="display:flex;gap:8px">
+                <button class="btn" id="btnLight" onclick="setTheme('light')" style="flex:1;justify-content:center"><i class="ti ti-sun" aria-hidden="true"></i> Mode clair</button>
+                <button class="btn" id="btnDark" onclick="setTheme('dark')" style="flex:1;justify-content:center"><i class="ti ti-moon" aria-hidden="true"></i> Mode sombre</button>
+              </div>
+            </div>
+            <div class="chart-area">
+              <div class="chart-title" style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px">Connexion MySQL</div>
+              <div class="form-grid">
+                <div class="form-group"><label>Hôte</label><input value="localhost" /></div>
+                <div class="form-group"><label>Port</label><input value="3306" /></div>
+                <div class="form-group"><label>Utilisateur</label><input value="root" /></div>
+                <div class="form-group"><label>Mot de passe</label><input type="password" placeholder="••••••" /></div>
+                <div class="form-group" style="grid-column:1/-1"><label>Base de données</label><input value="bibliotheque" /></div>
+              </div>
+              <button class="btn btn-primary" style="margin-top:10px"><i class="ti ti-plug" aria-hidden="true"></i> Tester la connexion</button>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+<script>
+function login() {
+  document.getElementById('loginView').style.display = 'none';
+  const av = document.getElementById('appView');
+  av.style.display = 'flex';
+}
+
+function showScreen(id, el) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const s = document.getElementById('screen-' + id);
+  if (s) s.classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+function showAddLivreForm() {
+  const f = document.getElementById('addLivreForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function showAddEmpruntForm() {
+  const f = document.getElementById('addEmpruntForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+
+function saveLivre() {
+  document.getElementById('addLivreForm').style.display = 'none';
+  alert('Livre ajouté avec succès !');
+}
+
+function saveEmprunt() {
+  document.getElementById('addEmpruntForm').style.display = 'none';
+  alert('Emprunt enregistré. Reçu généré dans ~/recu_emprunt_4.txt');
+}
+
+function editLivre() {
+  showAddLivreForm();
+  document.getElementById('addLivreForm').querySelector('p').textContent = 'Modifier le livre';
+}
+
+function setTheme(t) {
+  alert('Thème "' + (t === 'dark' ? 'sombre' : 'clair') + '" activé via CSS dynamique.');
+}
+
+function searchLive(val) {
+  if (val.length > 0) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelector('.nav-item').classList.add('active');
+  }
+}
+</script>
